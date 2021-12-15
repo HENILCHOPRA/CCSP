@@ -1,0 +1,675 @@
+{% block head %}
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Admin Dashboard</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{{ url_for('static', filename='img/favicon.png') }}" rel="icon">
+  <link href="{{ url_for('static', filename='img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/quill/quill.snow.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/quill/quill.bubble.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/remixicon/remixicon.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/simple-datatables/style.css') }}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: NiceAdmin - v2.2.0
+  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+        <h5 class="card-title">CCSP</h5>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+
+    <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
+        <li class="nav-item dropdown pe-3">
+
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+            <span class="d-none d-md-block dropdown-toggle ps-2">{{session['username']}}</span>
+          </a><!-- End Profile Iamge Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href={{ url_for('signout') }}>
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sign Out</span>
+              </a>
+            </li>
+
+          </ul><!-- End Profile Dropdown Items -->
+        </li><!-- End Profile Nav -->
+      </ul>
+    </nav><!-- End Icons Navigation -->
+
+  </header><!-- End Header -->
+
+  <!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-journal-text"></i><span>Dashboard</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+      </li><!-- End Forms Nav -->
+
+    </ul>
+
+  </aside><!-- End Sidebar-->
+
+  <main id="main" class="main">
+
+    <section class="section dashboard">
+      <div class="row">
+
+        <!-- Left side columns -->
+        <div class="col-lg-8">
+          <div class="row">
+
+            <!-- Sales Card -->
+            <div class="col-xxl-4 col-md-6">
+              <div class="card info-card sales-card">
+
+                <div class="card-body">
+                  <h5 class="card-title">Sales</h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-cart"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6>{{values['aggre_data'][2]}}</h6>
+                      {% if values['aggre_data'][3] > 0 %}
+                            <span class="text-success small pt-1 fw-bold">{{values['aggre_data'][3]}}%</span> <span class="text-muted small pt-2 ps-1">increase compared to last month</span>
+                      {% else %}
+                            <span class="text-danger small pt-1 fw-bold">{{values['aggre_data'][3] * -1}}%</span> <span class="text-muted small pt-2 ps-1">decrease compared to last month</span> 
+                      {% endif %}
+                      
+
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div><!-- End Sales Card -->
+
+            <!-- Revenue Card -->
+            <div class="col-xxl-4 col-md-6">
+              <div class="card info-card revenue-card">
+
+                <div class="card-body">
+                  <h5 class="card-title">Revenue </h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-currency-dollar"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6>${{values['aggre_data'][0]}}</h6>
+                      {% if values['aggre_data'][1] > 0 %}
+                            <span class="text-success small pt-1 fw-bold">{{values['aggre_data'][1]}}%</span> <span class="text-muted small pt-2 ps-1">increase compared to last month</span>
+                      {% else %}
+                            <span class="text-danger small pt-1 fw-bold">{{values['aggre_data'][1] * -1}}%</span> <span class="text-muted small pt-2 ps-1">decrease compared to last month</span> 
+                      {% endif %}
+
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div><!-- End Revenue Card -->
+
+            <!-- Customers Card -->
+            <div class="col-xxl-4 col-xl-12">
+
+              <div class="card info-card customers-card">
+
+                <div class="card-body">
+                  <h5 class="card-title">Terminations</h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-people"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6>{{values['aggre_data'][4]}}</h6>
+                      {% if values['aggre_data'][5] > 0 %}
+                            <span class="text-success small pt-1 fw-bold">{{values['aggre_data'][5]}}%</span> <span class="text-muted small pt-2 ps-1">increase compared to last month</span>
+                      {% else %}
+                            <span class="text-danger small pt-1 fw-bold">{{values['aggre_data'][5] * -1}}%</span> <span class="text-muted small pt-2 ps-1">decrease compared to last month</span> 
+                      {% endif %}
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div><!-- End Customers Card -->
+
+            
+            <!-- Reports -->
+            <div class="col-12">
+              <div class="card"> 
+
+                <div class="card-body">
+                  <h5 class="card-title">Reports <span>/Year</span></h5>
+
+                  <!-- Line Chart -->
+                  <div id="reportsChart"></div>
+
+                  <script>
+                    document.addEventListener("DOMContentLoaded", () => {
+                      new ApexCharts(document.querySelector("#reportsChart"), {
+                        series: [{
+                          name: 'Sales',
+                          data: {{values['report_chart_data'][0]}},
+                        }, {
+                          name: 'Revenue (in $k)',
+                          data: {{values['report_chart_data'][1]}}
+                        }, {
+                          name: 'Terminations',
+                          data: {{values['report_chart_data'][2]}}
+                        }],
+                        chart: {
+                          height: 350,
+                          type: 'area',
+                          toolbar: {
+                            show: false
+                          },
+                        },
+                        markers: {
+                          size: 4
+                        },
+                        colors: ['#4154f1', '#2eca6a', '#ff771d'],
+                        fill: {
+                          type: "gradient",
+                          gradient: {
+                            shadeIntensity: 1,
+                            opacityFrom: 0.3,
+                            opacityTo: 0.4,
+                            stops: [0, 90, 100]
+                          }
+                        },
+                        dataLabels: {
+                          enabled: false
+                        },
+                        stroke: {
+                          curve: 'smooth',
+                          width: 2
+                        },
+                        xaxis: {
+                          type: 'month',
+                          categories:  ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+                        },
+                        tooltip: {
+                          x: {
+                            format: 'month'
+                          },
+                        }
+                      }).render();
+                    });
+                  </script>
+                  <!-- End Line Chart -->
+
+                </div>
+
+              </div>
+            </div><!-- End Reports -->
+
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Customer Cluster Chart </h5>
+
+                  <!-- Bubble Chart -->
+                  <div id="bubbleChart" style="min-height: 400px;" class="echart"></div>
+                  <script>
+                    document.addEventListener("DOMContentLoaded", () => {
+                      const data = {{values['cluster_data']|safe }};
+                      echarts.init(document.querySelector("#bubbleChart")).setOption({
+                        legend: {
+                          right: '10%',
+                          top: '3%',
+                          data: ['0','1', '2']
+                        },
+                        grid: {
+                          left: '8%',
+                          top: '10%'
+                        },
+                        xAxis: {
+                          splitLine: {
+                            lineStyle: {
+                              type: 'dashed'
+                            }
+                          }
+                        },
+                        yAxis: {
+                          splitLine: {
+                            lineStyle: {
+                              type: 'dashed'
+                            }
+                          },
+                          scale: true
+                        },
+                        series: [{
+                            name: '0',
+                            data: data[0],
+                            type: 'scatter',
+                            symbolSize: function(data) {
+                              return Math.sqrt(data[2])/8;
+                            },
+                            emphasis: {
+                              focus: 'series',
+                              label: {
+                                show: true,
+                                formatter: function(param) {
+                                  return param.data[3];
+                                },
+                                position: 'top'
+                              }
+                            },
+                            itemStyle: {
+                              color: 'rgb(251, 118, 123)'
+                            }
+                          },
+                          {
+                            name: '1',
+                            data: data[1],
+                            type: 'scatter',
+                            symbolSize: function(data) {
+                              return Math.sqrt(data[2])/8;
+                            },
+                            emphasis: {
+                              focus: 'series',
+                              label: {
+                                show: true,
+                                formatter: function(param) {
+                                  return param.data[3];
+                                },
+                                position: 'top'
+                              }
+                            },
+                            itemStyle: {
+                              color: 'rgb(129, 227, 238)'
+                            }
+                          },
+                          {
+                            name: '2',
+                            data: data[2],
+                            type: 'scatter',
+                            symbolSize: function(data) {
+                              return Math.sqrt(data[2])/8;
+                            },
+                            emphasis: {
+                              focus: 'series',
+                              label: {
+                                show: true,
+                                formatter: function(param) {
+                                  return param.data[3];
+                                },
+                                position: 'top'
+                              }
+                            },
+                            itemStyle: {
+                              color: 'rgb(251, 0, 123)'
+                            }
+                          }
+                        ]
+                      });
+                    });
+                  </script>
+                  <!-- End Bubble Chart -->
+
+                </div>
+              </div>
+            </div>
+
+
+            <!-- Recent Sales -->
+            <div class="col-12">
+              <div class="card recent-sales">
+
+                <div class="card-body">
+                  <h5 class="card-title">Recent Sales</span></h5>
+
+                  <table class="table table-borderless datatable">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Customer</th>
+                        <th scope="col">Instance</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Time</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      {% for row in values['recent_chart_data'] %}
+                            <tr>
+                              <th scope="row"><a href="#">{{loop.index}}</a></th>
+                              <td>{{row[0]}}</td>
+                              <td><a href="#" class="text-primary">{{row[1]}}</a></td>
+                              <td>{{row[2]}}</td>
+                              <td><span class="badge bg-success">{{row[3]}}</span></td>
+                            </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+
+                </div>
+
+              </div>
+            </div><!-- End Recent Sales -->
+
+            <!-- Top Selling -->
+            <div class="col-12">
+              <div class="card top-selling">
+
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>Filter</h6>
+                    </li>
+
+                    <li><a class="dropdown-item" href="#">Today</a></li>
+                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                  </ul>
+                </div>
+
+                <div class="card-body pb-0">
+                  <h5 class="card-title">Top Selling Computing</h5>
+
+                  <table class="table table-borderless">
+                    <thead>
+
+                      <tr>
+                        <th scope="col">Index</th>
+                        <th scope="col">ComputeID</th>
+                        <th scope="col">Sold</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Revenue ($)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for row in values["top_chart_data"]["computing"] %}
+                          <tr>
+                            <td>{{loop.index}}</td>
+                            <td><a href="#" class="text-primary fw-bold">{{row[0]}}</a></td>
+                            <td>{{row[1]}}</td>
+                            <td class="fw-bold">{{row[2]}}</td>
+                            <td>{{row[3]}}</td>
+                          </tr>
+
+                      {% endfor %}                      
+                      
+                    </tbody>
+                  </table>
+
+
+                </div>
+
+              </div>
+            </div><!-- End Top Selling -->
+
+            <!-- Top Selling -->
+            <div class="col-12">
+              <div class="card top-selling">
+                <div class="card-body pb-0">
+                  <h5 class="card-title">Top Selling Storage<span></span></h5>
+
+                  <table class="table table-borderless">
+                    <thead>
+
+                      <tr>
+                        <th scope="col">Index</th>
+                        <th scope="col">StorageID</th>
+                        <th scope="col">Sold</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Revenue ($)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for row in values["top_chart_data"]["storage"] %}
+                          <tr>
+                            <td>{{loop.index}}</td>
+                            <td><a href="#" class="text-primary fw-bold">{{row[0]}}</a></td>
+                            <td>{{row[1]}}</td>
+                            <td class="fw-bold">{{row[2]}}</td>
+                            <td>{{row[3]}}</td>
+                          </tr>
+
+                      {% endfor %}                      
+                      
+                    </tbody>
+                  </table>
+
+                </div>
+
+              </div>
+            </div><!-- End Top Selling -->
+
+          </div>
+        </div><!-- End Left side columns -->
+
+        <!-- Right side columns -->
+        <div class="col-lg-4">
+
+          <!-- Recent Activity -->
+          <div class="card">
+            <div class="filter">
+              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+            </div>
+
+            <div class="card-body">
+              <h5 class="card-title">Recent Activity</h5>
+
+              <div class="activity">
+                {% for md in values["recent_data"] %}
+
+                    <div class="activity-item d-flex">
+                      <div class="activite-label">{{md[1]}}</div>
+                      <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
+                      <div class="activity-content">
+                        {% if md[2] == 0 %}
+                            {{md[0]}}<a href="#" class="fw-bold text-dark"> unsubscribed to a {{md[3]}}</a> 
+                        {% endif %}
+                        {% if md[2] == 1%}
+                            {{md[0]}}<a href="#" class="fw-bold text-dark"> subscribed to {{md[3]}}</a> 
+                        {% endif %}
+                        
+                      </div>
+                    </div><!-- End activity item-->
+                {% endfor %}
+                
+
+              </div>
+
+            </div>
+          </div><!-- End Recent Activity -->
+
+        
+          <!-- Website Traffic -->
+          <div class="card">
+            <div class="card-body pb-0">
+              <h5 class="card-title">Computing bug report</span></h5>
+
+              <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
+
+              <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                  echarts.init(document.querySelector("#trafficChart")).setOption({
+                    tooltip: {
+                      trigger: 'item'
+                    },
+                    legend: {
+                      top: '5%',
+                      left: 'center'
+                    },
+                    series: [{
+                      name: 'Access From',
+                      type: 'pie',
+                      radius: ['40%', '70%'],
+                      avoidLabelOverlap: false,
+                      label: {
+                        show: false,
+                        position: 'center'
+                      },
+                      emphasis: {
+                        label: {
+                          show: true,
+                          fontSize: '18',
+                          fontWeight: 'bold'
+                        }
+                      },
+                      labelLine: {
+                        show: false
+                      },
+                      data: [{
+                          value:  {{values["spider_data"][1][0]}},
+                          name:  "{{values['spider_data'][0][0]|string}}"
+                        },
+                        {
+                          value:  {{values["spider_data"][1][1]}},
+                          name:  "{{values['spider_data'][0][1]|string}}"
+                        },
+                        {
+                          value:  {{values["spider_data"][1][2]}},
+                          name:  "{{values['spider_data'][0][2]|string}}"
+                        },
+                        {
+                          value:  {{values["spider_data"][1][3]}},
+                          name:  "{{values['spider_data'][0][3]|string}}"
+                        },
+                        {
+                          value:  {{values["spider_data"][1][4]}},
+                          name:  "{{values['spider_data'][0][4]|string}}"
+                        }
+                      ]
+                    }]
+                  });
+                });
+              </script>
+
+            </div>
+          </div><!-- End Website Traffic -->
+          
+          <!-- Website Traffic -->
+          <div class="card">
+            <div class="card-body pb-0">
+              <h5 class="card-title">Storage bug report</h5>
+
+              <div id="StoragetrafficChart" style="min-height: 400px;" class="echart"></div>
+
+              <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                  echarts.init(document.querySelector("#StoragetrafficChart")).setOption({
+                    tooltip: {
+                      trigger: 'item'
+                    },
+                    legend: {
+                      top: '5%',
+                      left: 'center'
+                    },
+                    series: [{
+                      name: 'Access From',
+                      type: 'pie',
+                      radius: ['40%', '70%'],
+                      avoidLabelOverlap: false,
+                      label: {
+                        show: false,
+                        position: 'center'
+                      },
+                      emphasis: {
+                        label: {
+                          show: true,
+                          fontSize: '18',
+                          fontWeight: 'bold'
+                        }
+                      },
+                      labelLine: {
+                        show: false
+                      },
+                      data: [{
+                          value:  {{values["spider_data"][3][0]}},
+                          name:  "{{values['spider_data'][2][0]|string}}"
+                        },
+                        {
+                          value:  {{values["spider_data"][3][1]}},
+                          name:  "{{values['spider_data'][2][1]|string}}"
+                        },
+                        {
+                          value:  {{values["spider_data"][3][2]}},
+                          name:  "{{values['spider_data'][2][2]|string}}"
+                        },
+                        {
+                          value:  {{values["spider_data"][3][3]}},
+                          name:  "{{values['spider_data'][2][3]|string}}"
+                        },
+                        {
+                          value:  {{values["spider_data"][3][4]}},
+                          name:  "{{values['spider_data'][2][4]|string}}"
+                        }
+                      ]
+                    }]
+                  });
+                });
+              </script>
+
+            </div>
+          </div><!-- End Website Traffic -->
+          
+        </div><!-- End Right side columns -->
+
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{{ url_for('static', filename='vendor/apexcharts/apexcharts.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/chart.js/chart.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/echarts/echarts.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/quill/quill.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/simple-datatables/simple-datatables.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/tinymce/tinymce.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/php-email-form/validate.js') }}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+</body>
+
+</html>
+{% endblock %}

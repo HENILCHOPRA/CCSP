@@ -1,0 +1,266 @@
+{% block head %}
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>User Dashboard</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{{ url_for('static', filename='img/favicon.png') }}" rel="icon">
+  <link href="{{ url_for('static', filename='img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/quill/quill.snow.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/quill/quill.bubble.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/remixicon/remixicon.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/simple-datatables/style.css') }}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: NiceAdmin - v2.2.0
+  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+
+<!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+        <h5 class="card-title">CCSP</h5>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+
+    <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
+        <li class="nav-item dropdown pe-3">
+
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+            <span class="d-none d-md-block dropdown-toggle ps-2">{{session['username']}}</span>
+          </a><!-- End Profile Iamge Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+              <a class="dropdown-item d-flex align-items-center" href={{ url_for('signout') }}>
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sign Out</span>
+              </a>
+            </li>
+
+          </ul><!-- End Profile Dropdown Items -->
+        </li><!-- End Profile Nav -->
+      </ul>
+    </nav><!-- End Icons Navigation -->
+
+  </header><!-- End Header -->
+
+  <!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-journal-text"></i><span>Subscriptions</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="forms-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
+          <li>
+            <a href={{ url_for('profile') }}>
+              <i class="bi bi-circle"></i><span>Current Subscriptions</span>
+            </a>
+          </li>
+          <li>
+            <a href={{ url_for('subscribe') }}>
+              <i class="bi bi-circle"></i><span>All Services</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Forms Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link " data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-layout-text-window-reverse"></i><span>Accounts</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="tables-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+          <li>
+            <a href={{ url_for('bills') }}>
+              <i class="bi bi-circle"></i><span>Bills</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Tables Nav -->
+    </ul>
+
+  </aside><!-- End Sidebar-->
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Your subscriptions</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html"> {{values['username']}} </a></li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+    <div class="col-lg-14">
+    <!-- Recent Sales -->
+            <div class="col-12">
+              <div class="card recent-sales">
+
+                <div class="card-body">
+                  <h5 class="card-title">Your Subscriptions</span></h5>
+
+                  <table class="table table-borderless datatable">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">subscriptionID</th>
+                        <th scope="col">Start Date</th>
+                        <th scope="col">End Date</th>
+                        <th scope="col">Cancel Subscription</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      {% for row in values['subs_data'] %}
+                            <tr>
+                              <th scope="row"><a href="#">{{loop.index}}</a></th>
+                              <td>{{row[0]}}</td>
+                              <td>{{row[1]}}</a></td>
+                              <td>{{row[2]}}</td>
+
+                              <td><form method="get" action="{{ url_for('cancelsub') }}">
+                                    <button class="btn btn-primary w-60" type="submit"><b>Cancel</b></button>
+                                    <input type= 'hidden' name = 'subID' value = "{{row[0]}}"/>
+                                  </form>
+                              </td>
+                            </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                  {% if message %}
+                        <p class=error><strong>Success:</strong> {{ message }}
+                  {% endif %}
+
+                </div>
+
+              </div>
+            </div><!-- End Recent Sales -->
+
+    <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">What is your budget?</h5>
+
+              <!-- Advanced Form Elements -->
+              <form method="get" action="{{ url_for('getpredicts') }}">
+
+                    <div class="row mb-3">
+                        <label for="inputNumber" class="col-sm-2 col-form-label">Budget</label>
+                            <div class="col-sm-10">
+                                    <input name = "budget" type="number" class="form-control">
+                            </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-10">
+                                    <button type="submit" class="btn btn-primary">Suggest me</button>
+                        </div>
+                    </div>
+              </form>
+
+        </div>
+      </div>
+              {% if values['suggested_data']%}
+
+              <div class="card">
+                <div class="card-body">
+                  <table class="table table-borderless datatable">
+                    <thead>
+                      <tr>
+                        <th scope="col">computeID</th>
+                        <th scope="col">Core Count</th>
+                        <th scope="col">Ram</th>
+                        <th scope="col">GPU</th>
+                        <th scope="col">Price</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for row in values['suggested_data'][0] %}
+                            <tr>
+                              <th scope="row"><a href="#">{{row[0]}}</a></th>
+                              <td>{{row[1]}}</td>
+                              <td>{{row[2]}}</a></td>
+                              <td>{{row[3]}}</td>
+                              <td>{{row[4]}}</td>
+                            </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              {%endif%}
+              {% if values['suggested_data']%}
+
+              <div class="card">
+                <div class="card-body">
+                  <table class="table table-borderless datatable">
+                    <thead>
+                      <tr>
+                        <th scope="col">StorageID</th>
+                        <th scope="col">Size</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Price</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for row in values['suggested_data'][1] %}
+                            <tr>
+                              <th scope="row"><a href="#">{{row[0]}}</a></th>
+                              <td>{{row[1]}}</td>
+                              <td>{{row[2]}}</a></td>
+                              <td>{{row[3]}}</td>
+
+                            </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              {%endif%}
+
+
+  </main><!-- End #main -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{{ url_for('static', filename='vendor/apexcharts/apexcharts.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/chart.js/chart.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/echarts/echarts.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/quill/quill.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/simple-datatables/simple-datatables.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/tinymce/tinymce.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/php-email-form/validate.js') }}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+</body>
+
+</html>
+{% endblock %}
