@@ -12,4 +12,4 @@
 8. Data Analaysis
 
 ## ERD-
-![ERD](/images/ERD.png?raw=true "Cloud Computing Platform")
+![ERD](/ERD.png?raw=true "Cloud Computing Platform")
